@@ -28,11 +28,11 @@ pipeline {
         }
         stage('Create Docker Image') {
             steps {
-                script {
-                    def imageName = "srlaf/backend:${appVersion}"
-                    sh "docker build -t ${imageName} ."
-                    echo "Docker Image ${imageName} created successfully."
-                }
+                sh """
+                def imageName = "srlaf/backend:${appVersion}"
+                sh "docker build -t ${imageName} ."
+                echo "Docker Image ${imageName} created successfully."
+                """
             }
         }
         stage('Deploy') {
