@@ -29,9 +29,8 @@ pipeline {
         stage('Create Docker Image') {
             steps {
                 sh """
-                def imageName = "srlaf/backend:${appVersion}"
-                sh "docker build -t ${imageName} ."
-                echo "Docker Image ${imageName} created successfully."
+                    docker build -t srlaf/backend:${appVersion} .
+                    docker images
                 """
             }
         }
