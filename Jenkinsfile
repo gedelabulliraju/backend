@@ -26,6 +26,12 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage('Create Docker Image') {
+            steps {
+                sh 'docker build -t srlaf/backend:${appVersion} .'
+                sh 'docker images'
+            }
+        }
         stage('Deploy') {
             when {
                 expression { env.GIT_BRANCH == 'origin/main' } // Only deploy if on the main branch
