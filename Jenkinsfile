@@ -28,8 +28,11 @@ pipeline {
         }
         stage('Create Docker Image') {
             steps {
-                sh 'docker build -t srlaf/backend:${appVersion} .'
-                sh 'docker images'
+                script {
+                    def imageName = "srlaf/backend:${appVersion}"
+                    sh "docker build -t ${imageName} ."
+                    echo "Docker Image ${imageName} created successfully."
+                }
             }
         }
         stage('Deploy') {
@@ -40,15 +43,15 @@ pipeline {
                 echo 'Deploying.......'
             }
         }
-        stage('Print Params'){
-            steps{
-                echo "Hello ${params.PERSON}"
-                echo "Biography: ${params.BIOGRAPHY}"
-                echo "Toggle: ${params.TOGGLE}"
-                echo "Choice: ${params.CHOICE}"
-                echo "Password: ${params.PASSWORD}"  
-            }
-        }
+        // stage('Print Params'){
+        //     steps{
+        //         echo "Hello ${params.PERSON}"
+        //         echo "Biography: ${params.BIOGRAPHY}"
+        //         echo "Toggle: ${params.TOGGLE}"
+        //         echo "Choice: ${params.CHOICE}"
+        //         echo "Password: ${params.PASSWORD}"  
+        //     }
+        // }
         // stage('Approval') {
         //     input {
         //         message "Should we continue?.."
