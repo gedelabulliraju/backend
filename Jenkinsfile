@@ -9,6 +9,11 @@ pipeline {
     environment { 
         debug = 'true'
         appVersion = '' // Can be set dynamically during the pipeline
+        account_id = "528564298423"
+        region = "us-east-1"
+        project = "expense"
+        environment = "dev"
+        component = "backend"
     }
    
     stages {
@@ -26,12 +31,25 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('Create Docker Image') {
-            steps {
-                sh """
-                    docker build -t srlaf/backend:${appVersion} .
-                    docker images
-                """
+        // stage('Create Docker Image') {
+        //     steps {
+        //         sh """
+        //             docker build -t srlaf/backend:${appVersion} .
+        //             docker images
+        //         """
+        //     }
+        // }
+        stage('docker build & push to ecr') { 
+            steps { 
+                withAWS(region: 'us-east-1', credentials: 'aws-creds') {
+                    script {
+                        sh "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com"
+                        sh "docker build -t ${project}/${environment}/${component}:${appVersion} ."
+                        docker images
+                        //sh "docker tag ${project}/${environment}/${component}:${appVersion} ${account_id}.dkr.ecr.${region}.amazonaws.com${project}/${environment}/${component}:${appVersion}"
+                        sh "docker push ${account_id}.dkr.ecr.${region}.amazonaws.com${project}/${environment}/${component}:${appVersion}"
+                    }
+                }
             }
         }
         stage('Deploy') {
