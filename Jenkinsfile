@@ -45,8 +45,7 @@ pipeline {
                     script {
                         sh "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com"
                         sh "docker build -t ${project}/${environment}/${component}:${appVersion} ."
-                        sh "docker images"
-                        //sh "docker tag ${project}/${environment}/${component}:${appVersion} ${account_id}.dkr.ecr.${region}.amazonaws.com${project}/${environment}/${component}:${appVersion}"
+                        sh "docker tag ${project}/${environment}/${component}:${appVersion} ${account_id}.dkr.ecr.${region}.amazonaws.com${project}/${environment}/${component}:${appVersion}"
                         sh "docker push ${account_id}.dkr.ecr.${region}.amazonaws.com${project}/${environment}/${component}:${appVersion}"
                     }
                 }
