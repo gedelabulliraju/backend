@@ -52,13 +52,19 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
-                expression { env.GIT_BRANCH == 'origin/main' } // Only deploy if on the main branch
-            }
             steps {
-                echo 'Deploying.......'
+                withAWS(region: 'us-east-1', credentials: 'aws-creds') {
+                    sh """
+                    aws eks update-kubeconfig --region ${region} --name ${project}-${environment}
+                    cd helm
+                    sed -i 's/IMAGE_VERSION/${appVersion}/g' values-${environment}.yaml
+                    helm upgrade --install ${component} -n ${project} -f values-${environment}.yaml .
+                    """
+                }
             }
+         
         }
+    }   
         // stage('Print Params'){
         //     steps{
         //         echo "Hello ${params.PERSON}"
@@ -81,7 +87,7 @@ pipeline {
         //         echo "Hello, ${PERSON}, nice to meet you."
         //     }
         // }
-    }
+    
     post {
         always {
             echo 'This will always run'
