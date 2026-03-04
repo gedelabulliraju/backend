@@ -16,7 +16,7 @@ metadata:
     tier: api
     project: expense
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: backend
@@ -57,7 +57,7 @@ spec:
   ports:
   - name: backend-port
     protocol: TCP
-    port: 8080 # service port
+    port: 80 # service port
     targetPort: 8080 # container port
 ---
 apiVersion: autoscaling/v1
