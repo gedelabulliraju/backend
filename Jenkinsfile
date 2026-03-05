@@ -6,9 +6,6 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES') // Timeout after 10 minutes
         disableConcurrentBuilds() // Prevent concurrent builds
     }
-    parameters{
-        booleanParam(name: 'deploy', defaultValue: false, description: 'Select to deploy or not')
-    }
     environment { 
         debug = 'true'
         appVersion = '' // Can be set dynamically during the pipeline
