@@ -9,7 +9,7 @@ pipeline {
     environment { 
         debug = 'true'
         appVersion = '' // Can be set dynamically during the pipeline
-        account_id = "528564298423"
+        account_id = "017183880052"
         region = "us-east-1"
         project = "expense"
         environment = "dev"
