@@ -39,6 +39,18 @@ pipeline {
         //         """
         //     }
         // }
+        stage('SonarQube analysis') {
+            environment {
+                SCANNER_HOME = tool 'sonar-6.0' //scanner config
+            }
+            steps {
+                // sonar server injection
+                withSonarQubeEnv('sonar-8.0') {
+                    sh '$SCANNER_HOME/bin/sonar-scanner'
+                    //generic scanner, it automatically understands the language and provide scan results
+                }
+            }
+        }
         stage('docker build & push to ecr') { 
             steps { 
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
