@@ -41,7 +41,7 @@ pipeline {
         // }
         stage('SonarQube analysis') {
             environment {
-                SCANNER_HOME = tool 'sonar-6.0' //scanner config
+                SCANNER_HOME = tool 'sonar-8.0' //scanner config
             }
             steps {
                 // sonar server injection
