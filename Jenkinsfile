@@ -36,10 +36,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'sonar-8.0'
                     withSonarQubeEnv('sonar-8.0') {
-                        sh "${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=backend \
-                        -Dsonar.projectName=backend \
-                        -Dsonar.sources=. "
+                        sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
