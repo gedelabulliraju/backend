@@ -31,6 +31,19 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage('SonarQube analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonar-8.0'
+                    withSonarQubeEnv('sonar-8.0') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=backend \
+                        -Dsonar.projectName=backend \
+                        -Dsonar.sources=. "
+                    }
+                }
+            }
+        }
         // stage('Create Docker Image') {
         //     steps {
         //         sh """
@@ -39,18 +52,18 @@ pipeline {
         //         """
         //     }
         // }
-        stage('SonarQube analysis') {
-            environment {
-                SCANNER_HOME = tool 'sonar-8.0' //scanner config
-            }
-            steps {
-                // sonar server injection
-                withSonarQubeEnv('sonar-8.0') {
-                    sh '$SCANNER_HOME/bin/sonar-scanner'
-                    //generic scanner, it automatically understands the language and provide scan results
-                }
-            }
-        }
+        // stage('SonarQube analysis') {
+        //     environment {
+        //         SCANNER_HOME = tool 'sonar-8.0' //scanner config
+        //     }
+        //     steps {
+        //         // sonar server injection
+        //         withSonarQubeEnv('sonar-8.0') {
+        //             sh '$SCANNER_HOME/bin/sonar-scanner'
+        //             //generic scanner, it automatically understands the language and provide scan results
+        //         }
+        //     }
+        // }
         stage('docker build & push to ecr') { 
             steps { 
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
