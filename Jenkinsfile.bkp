@@ -81,17 +81,6 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
-                expression { params.deploy }
-            }
-            steps {
-                step {
-                    build job: "backend-cd", parameters: [
-                        string(name: 'app-Version', value: ${appVersion}),
-                        string(name: 'environment', value: 'dev'),
-                    ]
-                }
-            }
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """

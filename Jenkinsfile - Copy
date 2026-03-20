@@ -6,8 +6,8 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES') // Timeout after 10 minutes
         disableConcurrentBuilds() // Prevent concurrent builds
     }
+  
     environment { 
-        debug = 'true'
         appVersion = '' // Can be set dynamically during the pipeline
         account_id = "528564298423"
         region = "us-east-1"
