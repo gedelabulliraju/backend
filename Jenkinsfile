@@ -80,9 +80,9 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
-                expression { params.deploy }
-            }
+            // when {
+            //     expression { params.deploy }
+            // }
             steps {
                 build job: "backend-cd", parameters: [
                     string(name: 'Version', value: "${appVersion}"),
