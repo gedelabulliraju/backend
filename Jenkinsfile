@@ -81,13 +81,13 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                expression { params.deploy == true }
+                expression { params.deploy }
             }
             steps {
-                build job: "../backend-cd", parameters: [
+                build job: "backend-cd", parameters: [
                     string(name: 'Version', value: ${appVersion}),
                     string(name: 'environment', value: 'dev'),
-                ]
+                ] wait: true
             }
         }
     }   
