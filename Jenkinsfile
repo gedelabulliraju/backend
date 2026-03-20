@@ -84,7 +84,7 @@ pipeline {
                 expression { params.deploy == true }
             }
             steps {
-                build job: "backend-cd", parameters: [
+                build job: "../backend-cd", parameters: [
                     string(name: 'Version', value: ${appVersion}),
                     string(name: 'environment', value: 'dev'),
                 ]
