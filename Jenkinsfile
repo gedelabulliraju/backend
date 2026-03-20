@@ -84,14 +84,11 @@ pipeline {
                 expression { params.deploy }
             }
             steps {
-                step {
-                    build job: "backend-cd", parameters: [
-                        string(name: 'app-Version', value: ${appVersion}),
-                        string(name: 'environment', value: 'dev'),
-                    ]
-                }
+                build job: "backend-cd", parameters: [
+                    string(name: 'app-Version', value: ${appVersion}),
+                    string(name: 'environment', value: 'dev'),
+                ]
             }
-           
         }
     }   
         // stage('Print Params'){
