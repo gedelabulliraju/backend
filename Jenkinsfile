@@ -81,7 +81,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                expression { params.deploy }
+                expression { params.deploy == true }
             }
             steps {
                 build job: "backend-cd", parameters: [
