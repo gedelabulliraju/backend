@@ -7,7 +7,6 @@ pipeline {
         disableConcurrentBuilds() // Prevent concurrent builds
     }
     environment { 
-        debug = 'true'
         appVersion = '' // Can be set dynamically during the pipeline
         account_id = "017183880052"
         region = "us-east-1"
@@ -92,17 +91,7 @@ pipeline {
                     ]
                 }
             }
-            steps {
-                withAWS(region: 'us-east-1', credentials: 'aws-creds') {
-                    sh """
-                        aws eks update-kubeconfig --region ${region} --name ${project}-${environment}
-                        cd helm
-                        sed -i 's/IMAGE_VERSION/${appVersion}/g' values-${environment}.yaml
-                        helm upgrade --install ${component} -n ${project} --create-namespace -f values-${environment}.yaml .
-                    """
-                }
-            }
-         
+           
         }
     }   
         // stage('Print Params'){
